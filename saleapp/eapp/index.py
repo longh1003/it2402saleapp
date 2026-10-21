@@ -1,21 +1,9 @@
-from operator import index
-
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    categories = [{
-        'id': 1,
-        'name': 'Mobile'
-    }, {
-        'id': 2,
-        'name': 'Tablet'
-    }, {
-        'id': 3,
-        'name': 'Laptop'
-    },]
     products = [{
         "id": 1,
         "name": "iPhone 7 Plus",
@@ -75,12 +63,35 @@ def home():
     if kw:
         filtered = [p for p in products if kw.lower() in p['name'].lower()]
 
-    return render_template('index.html', categories=categories, products=filtered)
+    return render_template('index.html', products=filtered)
 
 
 @app.route("/register")
-def register():
-    return 
+def register_view():
+    return render_template('register.html')
+
+
+@app.route("/login")
+def login_view():
+    return render_template('login.html')
+
+
+@app.context_processor
+def common_responses():
+    categories = [{
+        'id': 1,
+        'name': 'Mobile'
+    }, {
+        'id': 2,
+        'name': 'Tablet'
+    }, {
+        'id': 3,
+        'name': 'Laptop'
+    }]
+
+    return {
+        'categories': categories
+    }
 
 if __name__ == "__main__":
     app.run(debug=True)
